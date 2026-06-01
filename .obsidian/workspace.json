@@ -4,39 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "2236b1aaaba79a5e",
+        "id": "3ccb5cdb512e0eea",
         "type": "tabs",
         "children": [
           {
-            "id": "80197ee83a14d925",
+            "id": "2a39385540d6f9fb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2026-05-30-2차회의"
-            }
-          },
-          {
-            "id": "5e6c677e3fbbe184",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026-05-30-2차회의"
+              "title": "새 탭"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,10 +179,13 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "5e6c677e3fbbe184",
+  "active": "2a39385540d6f9fb",
   "lastOpenFiles": [
-    "README.md",
     "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
+    "karts-mothership/04. Meetings/2026-05-27-킥오프.md",
+    "karts-mothership/00. Inbox/깃헙 협업 연동 방법.md",
+    "karts-mothership/00. Inbox/무제.md",
+    "README.md",
     "INSTALL.md",
     "CLAUDE.md",
     "ARCHITECTURE.md",
@@ -209,8 +193,6 @@
     "karts-mothership/01. Projects/ai-animation-2026/_Project Overview.md",
     "karts-mothership/01. Projects/ai-animation-2026/Moods/Sosa/_Style Direction.md",
     "karts-mothership/01. Projects/ai-animation-2026/Moods/Gupgi/_Style Direction.md",
-    "karts-mothership/01. Projects/ai-animation-2026/Moods/Doryong/_Style Direction.md",
-    "karts-mothership/00. Inbox/무제.md",
-    "karts-mothership/04. Meetings/2026-05-27-킥오프.md"
+    "karts-mothership/01. Projects/ai-animation-2026/Moods/Doryong/_Style Direction.md"
   ]
 }
