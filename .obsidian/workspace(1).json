@@ -4,24 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "3ccb5cdb512e0eea",
+        "id": "2236b1aaaba79a5e",
         "type": "tabs",
         "children": [
           {
-            "id": "2a39385540d6f9fb",
+            "id": "80197ee83a14d925",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "karts-mothership/04. Meetings/2026-05-30-3차회의.md",
+                "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-05-30-3차회의"
+              "title": "2026-05-30-2차회의"
+            }
+          },
+          {
+            "id": "5e6c677e3fbbe184",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-05-30-2차회의"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -44,7 +59,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "파일 탐색기"
+              "title": "Files"
             }
           },
           {
@@ -174,73 +189,26 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:빠른 전환기 열기": false,
-      "graph:그래프 뷰 열기": false,
-      "canvas:새 캔버스 만들기": false,
-      "daily-notes:오늘의 일일 노트 열기": false,
-      "templates:템플릿 삽입": false,
-      "command-palette:명령어 팔레트 열기": false,
-      "bases:새 베이스 생성하기": false
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
     }
   },
-  "floating": {
-    "id": "dee86f7ea030b4be",
-    "type": "floating",
-    "children": [
-      {
-        "id": "5504124f1135b878",
-        "type": "window",
-        "children": [
-          {
-            "id": "b28c7347cca4bde1",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "6e94a429f212a148",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
-                    "mode": "source",
-                    "source": false
-                  },
-                  "icon": "lucide-file",
-                  "title": "2026-05-30-2차회의"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical",
-        "x": 1293,
-        "y": 520,
-        "width": 680,
-        "height": 760,
-        "maximize": false,
-        "zoom": 0
-      }
-    ]
-  },
-  "active": "2a39385540d6f9fb",
+  "active": "0e4070891e4850f4",
   "lastOpenFiles": [
-    "karts-mothership/01. Projects/ai-animation-2026/Setup/_Source.md",
-    "karts-mothership/01. Projects/ai-animation-2026/Setup/_Pipeline.md",
-    "karts-mothership/01. Projects/ai-animation-2026/_Project Overview.md",
     "karts-mothership/04. Meetings/2026-05-30-3차회의.md",
-    "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
-    "karts-mothership/04. Meetings/2026-06-02-Q-집으로-릴레이-애니메이션-챌린지-기획.md",
-    "karts-mothership/README.md",
-    "설명하지 않는 연출 — 의도적 모호성.md",
-    "ARCHITECTURE.md",
-    "CLAUDE.md",
-    "INSTALL.md",
-    "README.md",
+    "4.png",
     "karts-mothership/04. Meetings/2026-05-27-킥오프.md",
-    "karts-mothership/00. Inbox/깃헙 협업 연동 방법.md",
-    "karts-mothership/00. Inbox/무제.md",
+    "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
     "karts-mothership/01. Projects/ai-animation-2026/Moods/Sosa/_Style Direction.md",
     "karts-mothership/01. Projects/ai-animation-2026/Moods/Gupgi/_Style Direction.md",
-    "karts-mothership/01. Projects/ai-animation-2026/Moods/Doryong/_Style Direction.md"
+    "karts-mothership/01. Projects/ai-animation-2026/Moods/Doryong/_Style Direction.md",
+    "karts-mothership/00. Inbox/무제.md",
+    "CLAUDE.md",
+    "ARCHITECTURE.md"
   ]
 }
