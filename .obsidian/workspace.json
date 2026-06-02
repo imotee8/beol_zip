@@ -11,10 +11,14 @@
             "id": "2a39385540d6f9fb",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "karts-mothership/04. Meetings/2026-05-30-3차회의.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "새 탭"
+              "title": "2026-05-30-3차회의"
             }
           }
         ]
@@ -179,9 +183,49 @@
       "bases:새 베이스 생성하기": false
     }
   },
+  "floating": {
+    "id": "dee86f7ea030b4be",
+    "type": "floating",
+    "children": [
+      {
+        "id": "5504124f1135b878",
+        "type": "window",
+        "children": [
+          {
+            "id": "b28c7347cca4bde1",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "6e94a429f212a148",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "2026-05-30-2차회의"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 1293,
+        "y": 520,
+        "width": 680,
+        "height": 760,
+        "maximize": false,
+        "zoom": 0
+      }
+    ]
+  },
   "active": "2a39385540d6f9fb",
   "lastOpenFiles": [
     "karts-mothership/04. Meetings/2026-05-30-2차회의.md",
+    "karts-mothership/04. Meetings/2026-05-30-3차회의.md",
     "karts-mothership/04. Meetings/2026-05-27-킥오프.md",
     "karts-mothership/00. Inbox/깃헙 협업 연동 방법.md",
     "karts-mothership/00. Inbox/무제.md",
