@@ -1,2 +1,5 @@
 .DS_Store
 *.DS_Store
+
+# Obsidian 개인 화면 상태 (창 배치·열린 탭) — 공유 불필요
+.obsidian/workspace*.json
