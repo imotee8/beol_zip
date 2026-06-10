@@ -139,13 +139,26 @@ pip3 install -r ComfyUI-WanVaceAdvanced/requirements.txt --break-system-packages
 pip3 install soundfile gitpython --break-system-packages -q
 ```
 
-requirements 파일에 안 잡히는 모듈이 있어서 아래도 같이 깔아줘 (안 깔면 노드들이 "누락"으로 떠):
+requirements 파일에 안 잡히는 모듈이 있어서 아래도 같이 깔아줘 (안 깔면 노드들이 "누락"으로 떠).
+**새로 만든 빈 팟은 이 패키지들이 거의 다 비어 있어서** 한 번에 깔아두는 게 편해:
 
 ```bash
-# cv2(opencv) → VideoHelperSuite·Easy-Use·Impact-Pack·Mickmumpitz 가 필요로 함
-# accelerate → WanVideoWrapper 가 필요로 함
-pip3 install opencv-python accelerate soundfile --break-system-packages -q
+# cv2(opencv)      → VideoHelperSuite·Easy-Use·Impact-Pack·Mickmumpitz
+# accelerate       → WanVideoWrapper
+# soundfile        → comfyui-various
+# pywavelets(pywt) → RES4LYF
+# scikit-image     → Impact-Pack
+# gguf, ftfy       → WanVideoWrapper
+# matplotlib       → RES4LYF
+# segment-anything → WanVaceAdvanced(Impact 연동)
+# piexif           → Impact-Pack
+pip3 install opencv-python accelerate soundfile pywavelets scikit-image \
+  gguf matplotlib segment-anything piexif ftfy gitpython --break-system-packages -q
 ```
+
+> 💡 ComfyUI **코어**도 새 팟에선 `sqlalchemy` `alembic` `tqdm` `blake3` 가 빠져 코어 자체가 안 뜨는 경우가 있어
+> (`ModuleNotFoundError: No module named 'sqlalchemy'` / `'tqdm'`). 위 5단계 `pip3 install -r requirements.txt` 가
+> 끝까지 돌았는지 확인하고, 그래도 나면 `pip3 install sqlalchemy alembic tqdm blake3 --break-system-packages -q` 로 보강해.
 
 ---
 
@@ -180,6 +193,42 @@ python3 -c "import torch, torchaudio; print(torch.__version__, torchaudio.__vers
 ```
 
 세 값의 버전이 같고 마지막이 `True`면 OK.
+
+---
+
+### ⚠️ WanVideoWrapper 가 `cached_download` 에러로 누락될 때
+
+WanVideoWrapper 가 이런 에러로 IMPORT FAILED 되는 경우가 있어:
+
+```
+cannot import name 'cached_download' from 'huggingface_hub'
+```
+
+구버전 `diffusers` 가 최신 `huggingface_hub` 와 안 맞아서 나는 충돌이야. diffusers 를 최신으로 올리면 해결돼:
+
+```bash
+pip3 install -U diffusers --break-system-packages -q
+```
+
+> WanVideoWrapper 는 메인 워크플로우 핵심 노드라 이건 꼭 떠야 해.
+> (`onnx` `sageattention` 누락 경고는 선택 기능이라 무시해도 됨.)
+
+---
+
+### ⚠️ ffmpeg 설치 (영상 출력 노드용)
+
+`VHS_VideoCombine` 같은 영상 합치기 노드는 **ffmpeg** 이 있어야 해. 없으면 실행 중 이런 에러가 나:
+
+```
+ProcessLookupError: ffmpeg is required for video outputs and could not be found.
+```
+
+apt 로 설치하고 ComfyUI 를 **재시작**하면 인식돼 (ffmpeg 은 시작할 때 한 번 잡힘):
+
+```bash
+apt-get update && apt-get install -y ffmpeg
+pip3 install imageio-ffmpeg --break-system-packages -q
+```
 
 ---
 
@@ -323,21 +372,32 @@ bash /workspace/start_comfy.sh
 ```bash
 #!/bin/bash
 set -e
-echo '[1/4] 코어 + 노드 의존성 설치...'
+
+echo '[1/6] 시스템 패키지 (ffmpeg, tmux)...'
+command -v ffmpeg >/dev/null 2>&1 && command -v tmux >/dev/null 2>&1 || {
+  apt-get update -qq && apt-get install -y -qq ffmpeg tmux
+}
+
+echo '[2/6] 코어 의존성...'
 cd /workspace/ComfyUI && pip3 install -r requirements.txt --break-system-packages -q
+pip3 install sqlalchemy alembic tqdm blake3 --break-system-packages -q
+
+echo '[3/6] 커스텀 노드 의존성...'
 cd /workspace/ComfyUI/custom_nodes
-for d in ComfyUI-VideoHelperSuite ComfyUI-Easy-Use ComfyUI-Impact-Pack ComfyUI-WanVideoWrapper ComfyUI-Mickmumpitz-Nodes ComfyUI-KJNodes ComfyUI-WanVaceAdvanced; do
-  [ -f "$d/requirements.txt" ] && pip3 install -r "$d/requirements.txt" --break-system-packages -q
+for d in */; do
+  [ -f "${d}requirements.txt" ] && pip3 install -r "${d}requirements.txt" --break-system-packages -q || true
 done
-pip3 install opencv-python accelerate soundfile gitpython --break-system-packages -q
+pip3 install opencv-python accelerate soundfile pywavelets scikit-image \
+  gguf matplotlib segment-anything piexif ftfy gitpython imageio-ffmpeg --break-system-packages -q
 
-echo '[2/4] torch/torchvision/torchaudio 버전 정렬 (2.11.0+cu130)...'
-pip3 install torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu130 --break-system-packages -q
+echo '[4/6] diffusers ↔ huggingface_hub 호환 (WanVideoWrapper cached_download 에러 방지)...'
+pip3 install -U diffusers --break-system-packages -q
 
-echo '[3/4] 버전 확인...'
-python3 -c 'import torch,torchaudio;print("  torch",torch.__version__,"| audio",torchaudio.__version__,"| cuda",torch.cuda.is_available())'
+echo '[5/6] torch/torchaudio 정합성 확인...'
+python3 -c 'import torch,torchaudio;print("  torch",torch.__version__,"| audio",torchaudio.__version__,"| cuda",torch.cuda.is_available())' || \
+  echo '  ⚠️ torchaudio import 실패 → torch에 맞춰 수동 정렬 필요 (6단계 "버전 맞추기" 참고)'
 
-echo '[4/4] ComfyUI 실행 (tmux: comfy)...'
+echo '[6/6] ComfyUI 실행 (tmux: comfy)...'
 tmux kill-session -t comfy 2>/dev/null || true
 tmux new-session -d -s comfy
 tmux send-keys -t comfy 'cd /workspace/ComfyUI && python3 main.py --listen 0.0.0.0 --port 8188 2>&1 | tee /workspace/comfyui.log' Enter
@@ -345,6 +405,9 @@ echo '서버 뜰 때까지 대기...'
 until curl -s http://localhost:8188/system_stats > /dev/null 2>&1; do sleep 3; done
 echo '✅ ComfyUI 준비됨! 브라우저에서 [포드ID]-8188.proxy.runpod.net 접속'
 ```
+
+> 📌 이 스크립트는 **torch를 강제로 재설치하지 않아** (팟마다 기본 torch 버전이 달라서 — 예: cu124 / cu130).
+> torchaudio 가 어긋나 import 에러가 나면 [5/6] 단계에서 경고만 띄우니, 그때 6단계 "버전 맞추기"를 수동으로 한 번 해주면 돼.
 
 저장: JupyterLab 터미널에서 위 내용을 `nano /workspace/start_comfy.sh` 로 붙여넣고 저장 → `chmod +x /workspace/start_comfy.sh`
 </details>
@@ -359,7 +422,10 @@ echo '✅ ComfyUI 준비됨! 브라우저에서 [포드ID]-8188.proxy.runpod.net
 | 문제                                                             | 해결 방법                                                                                           |
 | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | `tmux: command not found`                                      | `apt-get update && apt-get install -y tmux` 설치 (8단계 참고)                                         |
+| ComfyUI 코어가 안 뜸 + `No module named 'sqlalchemy'`/`'tqdm'`     | 코어 의존성 누락. `pip3 install -r requirements.txt sqlalchemy alembic tqdm blake3 --break-system-packages` |
 | ComfyUI가 아예 안 뜸 + `libtorchaudio.so: undefined symbol`         | torch ↔ torchaudio 버전 불일치. 6단계의 "버전 맞추기" 참고                                                     |
+| `ffmpeg is required for video outputs` (VHS_VideoCombine)      | ffmpeg 미설치. `apt-get install -y ffmpeg` 후 ComfyUI 재시작 (6단계 ffmpeg 참고)                          |
+| WanVideoWrapper 누락 + `cannot import name 'cached_download'`    | diffusers ↔ huggingface_hub 충돌. `pip3 install -U diffusers --break-system-packages` (6단계 참고)    |
 | 노드 여러 개가 "누락"으로 뜸                                              | 폴더는 있는데 의존성 미설치일 때 많음. 6단계 의존성(cv2·accelerate·soundfile)·버전정렬 다시 실행 후 ComfyUI 재시작               |
 | 어떤 노드가 왜 실패했는지 알고 싶다                                           | `grep -iE "import failed\|no module named\|undefined symbol" /workspace/comfyui.log \| sort -u` |
 | `send-keys` 했는데 실행이 안 됨                                        | 명령 줄 끝에 `Enter` 빠졌는지 확인 (8단계 ⚠️)                                                                |
@@ -394,4 +460,4 @@ echo '✅ ComfyUI 준비됨! 브라우저에서 [포드ID]-8188.proxy.runpod.net
 
 ---
 
-*작성일: 2026-05-16 | RunPod 포드 ID: j515lhdqjg16k0 | ComfyUI 0.21.1*
+*작성일: 2026-05-16 | 업데이트: 2026-06-11 (새 팟 마이그레이션 — 코어/노드 의존성·diffusers·ffmpeg 누락 반영) | ComfyUI 0.21.1~0.24.0*
